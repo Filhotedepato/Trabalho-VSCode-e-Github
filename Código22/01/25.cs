@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-// Classe Sensor genérica
 class Sensor
 {
     public string Tipo { get; private set; }
@@ -17,28 +16,27 @@ class Sensor
         random = new Random();
     }
 
-    // Simula a leitura de valores do sensor
     public void ColetarDados()
     {
         switch (Tipo)
         {
             case "Pressao":
-                Valor = 50 + random.NextDouble() * 50; // Valor entre 50 e 100
+                Valor = 50 + random.NextDouble() * 50; 
                 break;
             case "Temperatura":
-                Valor = 20 + random.NextDouble() * 40; // Valor entre 20 e 60
+                Valor = 20 + random.NextDouble() * 40; 
                 break;
             case "Umidade":
-                Valor = 30 + random.NextDouble() * 70; // Valor entre 30 e 100
+                Valor = 30 + random.NextDouble() * 70; 
                 break;
             default:
                 Valor = 0;
+                Console.WriteLine($"Tipo de sensor nao reconhecido: {Tipo}");
                 break;
         }
     }
 }
 
-// Classe Dispositivo que possui vários sensores
 class Dispositivo
 {
     public string Nome { get; private set; }
@@ -50,13 +48,11 @@ class Dispositivo
         Sensores = new List<Sensor>();
     }
 
-    // Adiciona um sensor ao dispositivo
     public void AdicionarSensor(Sensor sensor)
     {
         Sensores.Add(sensor);
     }
 
-    // Coleta dados de todos os sensores do dispositivo
     public void ColetarDados()
     {
         foreach (var sensor in Sensores)
@@ -65,7 +61,6 @@ class Dispositivo
         }
     }
 
-    // Exibe os dados coletados dos sensores
     public void ExibirDados()
     {
         Console.WriteLine($"Dispositivo: {Nome}");
@@ -76,13 +71,18 @@ class Dispositivo
     }
 }
 
-// Classe principal do programa
 class Program
 {
     static void Main()
     {
+        Console.WriteLine("Boa tarde! Bem-vindo ao sistema de monitoramento de dispositivos.");
+        Console.WriteLine("Antes de iniciar, qual o seu nome?");
+        string nomeUsuario = Console.ReadLine();
+
+        Console.WriteLine($"Prazer em conhece-lo, {nomeUsuario}! Vamos configurar seus dispositivos.");
+
         // Cria dispositivos e adiciona sensores a eles
-        Dispositivo dispositivo1 = new Dispositivo("braco mecanico");
+        Dispositivo dispositivo1 = new Dispositivo("Braco mecanico");
         dispositivo1.AdicionarSensor(new Sensor("Pressao", "001"));
         dispositivo1.AdicionarSensor(new Sensor("Temperatura", "002"));
         dispositivo1.AdicionarSensor(new Sensor("Umidade", "003"));
@@ -100,7 +100,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("Selecione um comando:");
+            Console.WriteLine($"Selecione um comando, {nomeUsuario}:");
             Console.WriteLine("1. Coletar e exibir dados dos dispositivos");
             Console.WriteLine("2. Sair");
 
@@ -108,29 +108,27 @@ class Program
 
             if (escolha == "1")
             {
-                AtualizarDispositivos(new List<Dispositivo> { dispositivo1, dispositivo2, dispositivo3 });
+                dispositivo1.ColetarDados();
+                dispositivo1.ExibirDados();
+
+                dispositivo2.ColetarDados();
+                dispositivo2.ExibirDados();
+
+                dispositivo3.ColetarDados();
+                dispositivo3.ExibirDados();
             }
             else if (escolha == "2")
             {
+                Console.WriteLine("Obrigado por usar o sistema. Ate logo!");
                 break;
             }
             else
             {
-                Console.WriteLine("Opção inválida. Tente novamente.");
+                Console.WriteLine("Opcao invalida. Tente novamente.");
             }
 
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
-        }
-    }
-
-    static void AtualizarDispositivos(List<Dispositivo> dispositivos)
-    {
-        Console.Clear(); // Limpa a tela antes de exibir novos dados
-        foreach (var dispositivo in dispositivos)
-        {
-            dispositivo.ColetarDados();
-            dispositivo.ExibirDados();
         }
     }
 }
